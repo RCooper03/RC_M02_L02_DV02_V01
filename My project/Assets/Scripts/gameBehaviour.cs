@@ -2,10 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using CustomExtensions;
+
 using UnityEngine.SceneManagement;
 
-public class gameBehaviour : MonoBehaviour
+public class gameBehaviour : MonoBehaviour, IManager
 {
+    private string state;
+
+    public string State
+    {
+        get { return state; }
+        set { state = value; }
+    }
+    
     public string labelText = "Collect all 4 items to proceed";
     public int maxItems = 4;
     public int ammoCount = 0;
@@ -14,12 +24,6 @@ public class gameBehaviour : MonoBehaviour
     public int armourCount;
 
     private int itemsCollected = 0;
-
-    void RestartLevel()
-    {
-        SceneManager.LoadScene(0);
-        Time.timeScale = 1.0f;
-    }
 
     public int Items
     {
@@ -88,7 +92,7 @@ public class gameBehaviour : MonoBehaviour
 
                 //Time.timeScale = 1.0f;
 
-                RestartLevel();
+                Utilities.RestartLevel(0);
             }
 
             if (showLossScreen)
@@ -98,7 +102,7 @@ public class gameBehaviour : MonoBehaviour
                     //SceneManager.LoadScene(0);
                     //Time.timeScale = 1.0f;
 
-                    RestartLevel();
+                    Utilities.RestartLevel();
                 }
             }
         }
@@ -107,7 +111,16 @@ public class gameBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        state = "Manager initialized..";
+
+        state.FancyDebug();
+
+        Debug.Log(state);
     }
 
     // Update is called once per frame
